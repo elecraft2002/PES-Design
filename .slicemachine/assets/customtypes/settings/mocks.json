@@ -1,0 +1,46 @@
+{
+  "name": {
+    "__TYPE__": "StructuredTextContent",
+    "value": [
+      {
+        "type": "heading1",
+        "content": {
+          "text": "Giant"
+        }
+      }
+    ]
+  },
+  "description": {
+    "__TYPE__": "StructuredTextContent",
+    "value": [
+      {
+        "type": "paragraph",
+        "content": {
+          "text": "Dolor reprehenderit elit aute ullamco est veniam ex veniam reprehenderit Lorem. Quis ipsum mollit consectetur in excepteur cupidatat commodo."
+        }
+      }
+    ]
+  },
+  "mobile": {
+    "__TYPE__": "StructuredTextContent",
+    "value": [
+      {
+        "type": "paragraph",
+        "content": {
+          "text": "Enim amet sint adipisicing."
+        }
+      }
+    ]
+  },
+  "email": {
+    "__TYPE__": "StructuredTextContent",
+    "value": [
+      {
+        "type": "paragraph",
+        "content": {
+          "text": "Cupidatat qui in ad incididunt. Sunt aute excepteur ex officia in esse consequat ullamco officia id sint aute proident reprehenderit."
+        }
+      }
+    ]
+  }
+}
