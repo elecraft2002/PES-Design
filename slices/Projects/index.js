@@ -24,7 +24,7 @@ const Projects = ({ slice, context }) => {
   return (
     <section>
       <StyledContainer>
-        {context.projects.map((project, i) => {
+        {context?.projects.map((project, i) => {
           return (
             <li key={i}>
               <Project project={project} key={i} />
