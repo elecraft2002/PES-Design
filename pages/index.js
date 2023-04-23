@@ -25,7 +25,7 @@ const Index = ({ navigation, settings, page, projects }) => {
         <title>{prismicH.asText(settings.data.name)}</title>
       </Head>
       <StyledHeading>{prismicH.asText(settings.data.name)}</StyledHeading>
-      <SliceZone context={projects} slices={page.data.slices} components={components} />
+      <SliceZone  context={{projects}} slices={page.data.slices} components={components} />
     </Layout>
   );
 };
