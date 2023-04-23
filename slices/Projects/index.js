@@ -20,6 +20,7 @@ const StyledButtonContainer = styled.div`
   justify-content: center;
 `;
 const Projects = ({ slice, context }) => {
+  console.log(context)
   return (
     <section>
       <StyledContainer>
