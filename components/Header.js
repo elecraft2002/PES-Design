@@ -97,7 +97,8 @@ const StyledLogo = styled(Logo)`
   height: 48px;
 `;
 const StyledNavContent = styled.div`
-  overflow-y: scroll;
+  overflow-y: visible;
+  overflow-x:hidden;
   width: 100vw;
   border-bottom-left-radius: ${(props) => {
     return props.isOpenned ? "0px" : "50% 10vh";

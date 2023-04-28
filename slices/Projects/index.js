@@ -28,16 +28,18 @@ const StyledInfoContainer = styled.div`
     grid-template-columns: 1fr 1fr;
   }
 `
-
+const StyledDescriptionContainer = styled.span`
+margin:1rem;
+`
 const Projects = ({ slice, context }) => {
   console.log(context);
   return (
     <StyledSection>
       <StyledInfoContainer>
         <PrismicRichText field={slice.primary.title} />
-        <span>
+        <StyledDescriptionContainer>
           <PrismicRichText field={slice.primary.description} />
-        </span>
+        </StyledDescriptionContainer>
       </StyledInfoContainer>
       <StyledContainer>
         {context?.projects?.map((project, i) => {
