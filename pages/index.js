@@ -25,7 +25,11 @@ const Index = ({ navigation, settings, page, projects }) => {
         <title>{prismicH.asText(settings.data.name)}</title>
       </Head>
       <StyledHeading>{prismicH.asText(settings.data.name)}</StyledHeading>
-      <SliceZone  context={{projects}} slices={page.data.slices} components={components} />
+      <SliceZone
+        context={{ projects }}
+        slices={page.data.slices}
+        components={components}
+      />
     </Layout>
   );
 };
@@ -36,10 +40,11 @@ export async function getStaticProps({ previewData }) {
   const client = createClient({ previewData });
 
   const projects = await client.getAllByType("project", {
-    // orderings: [
-    //   { field: "my.article.publishDate", direction: "desc" },
-    //   { field: "document.first_publication_date", direction: "desc" },
-    // ],
+    limit: 3,
+    orderings: [
+      { field: "my.project.publishDate", direction: "desc" },
+      { field: "document.first_publication_date", direction: "desc" },
+    ],
   });
   const navigation = await client.getSingle("navigation");
   const settings = await client.getSingle("settings");

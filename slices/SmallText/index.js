@@ -1,16 +1,16 @@
 import React from "react";
 import { PrismicRichText } from "@prismicio/react";
 import styled from "styled-components";
-import { COLOR } from "../../pages/_app";
+import { COLOR, StyledSection } from "../../pages/_app";
 
-const StyledSectionContainer = styled.section`
+/* const StyledSectionContainer = styled.section`
   min-height: 25vh;
   display: flex;
   align-items: center;
   margin: 0 1em;
-`;
+`; */
 
-const StyledSection = styled.div`
+const StyledSectionContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -25,16 +25,16 @@ const StyledHeading = styled.span`
   color:${COLOR.primary};
 `;
 const SmallText = ({ slice }) => (
-  <StyledSectionContainer>
-    <StyledSection>
+  <StyledSection>
+    <StyledSectionContainer>
       <StyledHeading>
         <PrismicRichText field={slice.primary.title} />
       </StyledHeading>
       <StyledParagraph>
         <PrismicRichText field={slice.primary.description} />
       </StyledParagraph>
-    </StyledSection>
-  </StyledSectionContainer>
+    </StyledSectionContainer>
+  </StyledSection>
 );
 
 export default SmallText;

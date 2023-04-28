@@ -6,7 +6,7 @@ import { Bounded } from "./Bounded";
 import { Heading } from "./Heading";
 import { HorizontalDivider } from "./HorizontalDivider";
 import { Squash as Hamburger } from "hamburger-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { COLOR } from "../pages/_app";
 import Logo from "../assets/svgs/Logo";
@@ -20,6 +20,7 @@ const StyledLinkContainer = styled.h3`
   }
   font-family: Kimberley;
   color: ${COLOR.dark};
+  text-align: end;
 `;
 const StyledLinkLetter = styled.span`
   position: relative;
@@ -107,8 +108,14 @@ const StyledNavContent = styled.div`
   height: ${(props) => {
     return props.isOpenned ? "100vh" : "0px";
   }};
+  border-bottom: ${(props) => {
+    return props.isOpenned
+      ? "5rem solid " + COLOR.secondary
+      : "0px solid " + COLOR.primary;
+  }};
   top: 0;
-  background: ${COLOR.light};
+  background: ${COLOR.light}a1;
+  backdrop-filter: blur(50px);
   transition: 1s;
   padding-top: ${(props) => {
     return props.isOpenned ? "7rem" : "0px";
@@ -130,6 +137,12 @@ const StyledContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 1rem;
+  @media (min-width: 1000px) {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+  }
 `;
 const StyledNavRow = styled.nav`
   display: flex;
@@ -138,15 +151,26 @@ const StyledNavRow = styled.nav`
   width: 100%;
   position: absolute;
 `;
+const StyledContact = styled.div`
+  color: ${COLOR.dark};
+`;
 
 export const Header = ({ navigation, settings }) => {
   console.log(navigation);
   const [hovered, setHoverState] = useState(null);
   const [isOpenned, setNavState] = useState(false);
+  useEffect(() => {
+    console.log(isOpenned ? "hidded" : null);
+    const body = document.querySelector("body");
+    body.style.overflowY = isOpenned ? "hidded" : null;
+  }, [isOpenned]);
   return (
     <StyledNavContainer>
       <StyledNavRow>
-       <PrismicLink href={"/"}> <StyledLogo color={COLOR.primary} /></PrismicLink>
+        <PrismicLink href={"/"}>
+          {" "}
+          <StyledLogo color={COLOR.primary} />
+        </PrismicLink>
         <StyledHamburgerContainer>
           <Hamburger
             color={COLOR.light}
@@ -177,7 +201,7 @@ export const Header = ({ navigation, settings }) => {
               );
             })}
           </ul>
-          <Contact settings={settings} />
+          <StyledContact><Contact settings={settings} /></StyledContact>
         </StyledContentContainer>
       </StyledNavContent>
     </StyledNavContainer>

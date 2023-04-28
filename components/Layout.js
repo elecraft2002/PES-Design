@@ -87,7 +87,7 @@ export const Layout = ({
         <Background />
         <Header navigation={navigation} settings={settings} />
         <StyledMain>{children}</StyledMain>
-        <Footer withSignUpForm={withSignUpForm} settings={settings} />
+        <Footer withSignUpForm={withSignUpForm} navigation={navigation} settings={settings} />
       </StyledContainer>
     </ParallaxProvider>
   );

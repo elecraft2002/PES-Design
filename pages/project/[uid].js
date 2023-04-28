@@ -1,5 +1,10 @@
 import Head from "next/head";
-import { PrismicLink, PrismicText, SliceZone } from "@prismicio/react";
+import {
+  PrismicLink,
+  PrismicRichText,
+  PrismicText,
+  SliceZone,
+} from "@prismicio/react";
 import * as prismicH from "@prismicio/helpers";
 
 import { createClient } from "../../prismicio";
@@ -8,6 +13,12 @@ import { Layout } from "../../components/Layout";
 import { Bounded } from "../../components/Bounded";
 import { Heading } from "../../components/Heading";
 import { HorizontalDivider } from "../../components/HorizontalDivider";
+import { PrismicNextImage } from "@prismicio/next";
+import styled from "styled-components";
+import { COLOR, StyledStrong } from "../_app";
+import Button from "../../components/Button";
+import Wave2 from "../../assets/svgs/Wave2";
+import { Parallax } from "react-scroll-parallax";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -34,7 +45,63 @@ const LatestProject = ({ project }) => {
   );
 };
 
-const Project = ({ project, latestProjects, navigation, settings }) => {
+const StyledTopLanding = styled.div`
+  padding: 0 1rem;
+  padding-top: calc(20vh + 5vh);
+  margin-top: -5vh;
+  background: ${COLOR.light};
+  color: ${COLOR.dark};
+  display: flex;
+  flex-direction: column;
+`;
+const StyledCaption = styled.span`
+  font-size: 1.2rem;
+  margin: 1rem;
+  @media (min-width: 700px) {
+    font-size: 3vw;
+  }
+`;
+const StyledType = styled.strong`
+  margin: 1rem;
+  font-size: 1.25rem;
+  font-weight: 1000;
+  text-transform: uppercase;
+  position: relative;
+  &::before {
+    position: absolute;
+    content: "";
+    background: ${COLOR.primary};
+    height: 0.5rem;
+    aspect-ratio: 1;
+    left: 0;
+    top: 50%;
+    border-radius: 50%;
+    transform: translate(-150%, -50%);
+  }
+`;
+
+const StyledTypeContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+const StyledWave = styled(Wave2)`
+  fill: ${COLOR.light};
+  margin-top: -1px;
+  position: absolute;
+`;
+
+const StyledImage = styled(PrismicNextImage)`
+  object-fit: center;
+  height: 100%;
+  width: 100%;
+`;
+const StyledImageContainer = styled.figure`
+  margin: 0;
+  margin-top: -20vh;
+  max-height: 100vh;
+  overflow: hidden;
+`;
+const Project = ({ project, projects, navigation, settings }) => {
   const date = prismicH.asDate(
     project.data.publishDate || project.first_publication_date
   );
@@ -52,42 +119,32 @@ const Project = ({ project, latestProjects, navigation, settings }) => {
           {prismicH.asText(settings.data.name)}
         </title>
       </Head>
-      <Bounded>
-        <PrismicLink
-          href="/"
-          className="font-semibold tracking-tight text-slate-400"
-        >
-          &larr; Back to articles
-        </PrismicLink>
-      </Bounded>
-      <article>
-        <Bounded className="pb-0">
-          <h1 className="mb-3 text-3xl font-semibold tracking-tighter text-slate-800 md:text-4xl">
-            <PrismicText field={project.data.title} />
-          </h1>
-          <p className="font-serif italic tracking-tighter text-slate-500">
-            {dateFormatter.format(date)}
-          </p>
-        </Bounded>
-        <SliceZone slices={project.data.slices} components={components} />
-      </article>
-      {latestProjects.length > 0 && (
-        <Bounded>
-          <div className="grid grid-cols-1 justify-items-center gap-16 md:gap-24">
+      <div>
+        <Parallax translateY={["20vh", "-20vh"]}>
+          <StyledTopLanding>
+            <StyledCaption>
+              <PrismicRichText field={project.data.short_description} />
+            </StyledCaption>
             <HorizontalDivider />
-            <div className="w-full">
-              <Heading size="2xl" className="mb-10">
-                Latest articles
-              </Heading>
-              <ul className="grid grid-cols-1 gap-12">
-                {latestProjects.map((project) => (
-                  <LatestProject key={project.id} project={project} />
-                ))}
-              </ul>
-            </div>
-          </div>
-        </Bounded>
-      )}
+            <PrismicRichText field={project.data.title} />
+            <StyledTypeContainer>
+              <StyledType>{project.data.type}</StyledType>
+              <PrismicLink field={project.data.project_url}>
+                <Button type="primary">Projekt</Button>
+              </PrismicLink>
+            </StyledTypeContainer>
+          </StyledTopLanding>
+          <StyledWave />
+        </Parallax>
+        <StyledImageContainer>
+          <StyledImage field={project.data.featured_image} />
+        </StyledImageContainer>
+      </div>
+      <SliceZone
+        slices={project.data.slices}
+        context={{ projects }}
+        components={components}
+      />
     </Layout>
   );
 };
@@ -95,11 +152,10 @@ const Project = ({ project, latestProjects, navigation, settings }) => {
 export default Project;
 
 export async function getStaticProps({ params, previewData }) {
-  console.log(params);
   const client = createClient({ previewData });
 
   const project = await client.getByUID("project", params.uid);
-  const latestProjects = await client.getAllByType("project", {
+  const projects = await client.getAllByType("project", {
     limit: 3,
     orderings: [
       { field: "my.project.publishDate", direction: "desc" },
@@ -111,7 +167,7 @@ export async function getStaticProps({ params, previewData }) {
   return {
     props: {
       project,
-      latestProjects,
+      projects,
       navigation,
       settings,
     },

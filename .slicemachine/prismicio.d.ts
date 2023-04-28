@@ -192,7 +192,7 @@ interface ProjectDocumentData {
      * - **Documentation**: https://prismic.io/docs/core-concepts/select
      *
      */
-    type: prismicT.SelectField<"1" | "2">;
+    type: prismicT.SelectField<"Web" | "Animace" | "Video" | "Reklama">;
     /**
      * Short Description field in *Project*
      *
@@ -215,6 +215,17 @@ interface ProjectDocumentData {
      *
      */
     featured_image: prismicT.ImageField<never>;
+    /**
+     * Project URL field in *Project*
+     *
+     * - **Field Type**: Link
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.project_url
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    project_url: prismicT.LinkField;
     /**
      * Slice Zone field in *Project*
      *

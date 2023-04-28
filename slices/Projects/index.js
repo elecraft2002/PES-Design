@@ -3,6 +3,7 @@ import { PrismicLink, PrismicRichText } from "@prismicio/react";
 import Project from "../../components/Project";
 import styled from "styled-components";
 import Button from "../../components/Button";
+import { StyledSection } from "../../pages/_app";
 
 /**
  * @typedef {import("@prismicio/client").Content.ProjectsSlice} ProjectsSlice
@@ -19,10 +20,25 @@ const StyledButtonContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
+const StyledInfoContainer = styled.div`
+  display:flex;
+  flex-direction:column;
+  @media (min-width: 1000px) {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+  }
+`
+
 const Projects = ({ slice, context }) => {
-  console.log(context)
+  console.log(context);
   return (
-    <section>
+    <StyledSection>
+      <StyledInfoContainer>
+        <PrismicRichText field={slice.primary.title} />
+        <span>
+          <PrismicRichText field={slice.primary.description} />
+        </span>
+      </StyledInfoContainer>
       <StyledContainer>
         {context?.projects?.map((project, i) => {
           return (
@@ -37,7 +53,7 @@ const Projects = ({ slice, context }) => {
           Více
         </Button>
       </StyledButtonContainer>
-    </section>
+    </StyledSection>
   );
 };
 

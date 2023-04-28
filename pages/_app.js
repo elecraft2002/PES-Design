@@ -8,27 +8,36 @@ import { Heading } from "../components/Heading";
 import "../styles/globals.css";
 import styled from "styled-components";
 
-const StyledStrong = styled.strong`
+export const StyledStrong = styled.strong`
   color: ${() => {
     const colors = [COLOR.primary, COLOR.secondary, COLOR.tertiary];
     // console.log(id, Math.round(Math.random() * colors.length));
     return colors[Math.floor(Math.random() * colors.length)];
   }};
 `;
+const StyledH1 = styled.h1`
+  margin: 1rem;
+  font-family: "Kimberley";
+  @media (min-width: 800px) {
+    font-size: 5vw;
+  }
+`;
+export const StyledSection = styled.section`
+min-height:70vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+`
 
 const richTextComponents = {
-  heading1: ({ children }) => (
-    <Heading as="h2" size="3xl" className="mb-7 mt-12 first:mt-0 last:mb-0">
-      {children}
-    </Heading>
-  ),
+  heading1: ({ children }) => <StyledH1>{children}</StyledH1>,
   heading2: ({ children }) => (
-    <Heading as="h3" size="2xl" className="mb-7 last:mb-0">
+    <Heading as="h2" size="2xl" className="mb-7 last:mb-0">
       {children}
     </Heading>
   ),
   heading3: ({ children }) => (
-    <Heading as="h4" size="xl" className="mb-7 last:mb-0">
+    <Heading as="h3" size="xl" className="mb-7 last:mb-0">
       {children}
     </Heading>
   ),
@@ -51,7 +60,7 @@ const richTextComponents = {
     </pre>
   ),
   strong: ({ children }) => {
-    return <StyledStrong >{children}</StyledStrong>;
+    return <StyledStrong>{children}</StyledStrong>;
   },
 
   hyperlink: ({ children, node }) => (

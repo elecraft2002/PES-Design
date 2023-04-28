@@ -10,9 +10,12 @@ const StyledConactContainer = styled.div`
   }
 `;
 const StyledHeading = styled.h4`
-  color: ${COLOR.primary};
-  text-transform:uppercase;
-  font-size:.75em;
+  color: inherit;
+  text-transform: uppercase;
+  font-size: 0.75em;
+`;
+const StyledLink = styled(PrismicLink)`
+  color: inherit;
 `;
 
 export default function Contact({ settings }) {
@@ -21,12 +24,12 @@ export default function Contact({ settings }) {
       <StyledHeading>Kontakt</StyledHeading>
       <ul>
         <li>
-          <PrismicLink href={"tel:" + prismicH.asText(settings.data.mobile)}>
+          <StyledLink href={"tel:" + prismicH.asText(settings.data.mobile)}>
             <PrismicRichText field={settings.data.mobile} />
-          </PrismicLink>
-          <PrismicLink href={"mailto:" + prismicH.asText(settings.data.email)}>
+          </StyledLink>
+          <StyledLink href={"mailto:" + prismicH.asText(settings.data.email)}>
             <PrismicRichText field={settings.data.email} />
-          </PrismicLink>
+          </StyledLink>
         </li>
       </ul>
     </StyledConactContainer>

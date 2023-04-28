@@ -11,6 +11,9 @@ import Wave from "../assets/svgs/Wave";
 import Button from "./Button";
 import { useState } from "react";
 import axios from "axios";
+import Arrow from "../assets/svgs/Arrow";
+import Contact from "./Contact";
+import { LoadingPopup } from "./Loading";
 
 const SignUpForm = ({ settings }) => {
   return (
@@ -104,6 +107,9 @@ const StyledTextArea = styled.textarea`
   &::placeholder {
     color: ${COLOR.light};
   }
+  @media (max-width: 500px) {
+    width: calc(100% - 3em);
+  }
 `;
 const StyledInputArea = styled.input`
   border: none;
@@ -119,6 +125,9 @@ const StyledInputArea = styled.input`
   }
   &::placeholder {
     color: ${COLOR.light};
+  }
+  @media (max-width: 500px) {
+    width: 100%;
   }
 `;
 
@@ -140,14 +149,21 @@ const StyledContactInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  @media (max-width: 500px) {
+    width: calc(100% - 3em);
+  }
 `;
 const StyledForm = styled.form`
   display: flex;
   flex-wrap: wrap;
   gap: 2vw;
   align-items: stretch;
-  justify-content: space-evenly;
+  justify-content: center;
   width: 100%;
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 const ButtonContainer = styled.div`
   display: flex;
@@ -158,25 +174,50 @@ const StyledFormButton = styled.button.attrs((props) => {
     type: "submit",
     form: "form",
   };
-})``;
+})`
+  width: 3rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  border: none;
+  outline: none;
+  background: ${COLOR.light};
+  z-index: 2;
+  padding: 1rem;
+  cursor: pointer;
+`;
 
 const StyledError = styled.span`
   color: red;
+  font-weight: 1000;
+`;
+const StyledArrow = styled(Arrow)`
+  width: 100%;
+  height: 100%;
+  fill: ${COLOR.primary};
 `;
 const ContactForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoadingState] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoadingState(true);
     console.log("Submit", { name, email, message });
     // const res = await fetch("/api/contact")
     try {
       const res = await axios.post("/api/contact", { name, email, message });
+      setLoadingState(false);
+      if (res.status == 200) {
+        setName("");
+        setEmail("");
+        setError("");
+        setMessage("");
+      }
       console.log(res);
-      setError("");
     } catch (error) {
       console.log(error.response.data.error);
       setError(error.response.data.error);
@@ -184,6 +225,7 @@ const ContactForm = () => {
   };
   return (
     <>
+      {loading && <LoadingPopup />}
       <StyledForm id="form" onSubmit={handleSubmit}>
         <StyledContactInfo>
           <StyledH3>Zaujali jsme Vás?</StyledH3>
@@ -212,7 +254,7 @@ const ContactForm = () => {
         <ButtonContainer>
           {" "}
           <Button CustomElement={StyledFormButton} move type="onBLue">
-            Odeslat
+            <StyledArrow />
           </Button>
         </ButtonContainer>
       </StyledForm>
@@ -223,12 +265,31 @@ const ContactForm = () => {
 
 const StyledContact = styled.ul`
   padding: 0;
-  margin: 1em;
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
 `;
-export const Footer = ({ withSignUpForm = true, settings }) => {
+const StyledNav = styled.ul`
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+`;
+const StyledNavItem = styled(PrismicLink)`
+  color: ${COLOR.light};
+  font-size: 1.2em;
+`;
+const StyledNavItem1 = styled.a`
+  color: ${COLOR.light};
+`;
+
+const StyledInfo = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+export const Footer = ({ withSignUpForm = true, settings, navigation }) => {
   return (
     <>
       <StyledWave fill={COLOR.primary} />
@@ -236,14 +297,20 @@ export const Footer = ({ withSignUpForm = true, settings }) => {
         <StyledLogo color={COLOR.light} />
         <ContactForm />
         <HorizontalDivider />
-        <StyledContact>
-          <li>
-            <a>vojtech.suchanek@gmail.com</a>
-          </li>
-          <li>
-            <a>+420 123 456 789</a>
-          </li>
-        </StyledContact>
+        <StyledInfo>
+          <StyledContact>
+            <Contact settings={settings} />
+          </StyledContact>
+          <StyledNav>
+            {navigation.data.links.map((link, index) => {
+              return (
+                <StyledNavItem field={link.link} key={index}>
+                  <PrismicRichText field={link.label} />
+                </StyledNavItem>
+              );
+            })}
+          </StyledNav>
+        </StyledInfo>
       </StyledFooter>
     </>
   );
