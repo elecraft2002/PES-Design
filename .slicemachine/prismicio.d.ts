@@ -6,68 +6,6 @@ import type * as prismic from "@prismicio/client";
 type Simplify<T> = {
     [KeyType in keyof T]: T[KeyType];
 };
-/** Content for Article documents */
-interface ArticleDocumentData {
-    /**
-     * Title field in *Article*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: Title of the article
-     * - **API ID Path**: article.title
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    title: prismicT.TitleField;
-    /**
-     * Publish Date field in *Article*
-     *
-     * - **Field Type**: Date
-     * - **Placeholder**: Date the article was published
-     * - **API ID Path**: article.publishDate
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/date
-     *
-     */
-    publishDate: prismicT.DateField;
-    /**
-     * Featured Image field in *Article*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: article.featuredImage
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    featuredImage: prismicT.ImageField<never>;
-    /**
-     * Slice Zone field in *Article*
-     *
-     * - **Field Type**: Slice Zone
-     * - **Placeholder**: *None*
-     * - **API ID Path**: article.slices[]
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
-     *
-     */
-    slices: prismicT.SliceZone<ArticleDocumentDataSlicesSlice>;
-}
-/**
- * Slice for *Article → Slice Zone*
- *
- */
-type ArticleDocumentDataSlicesSlice = ImageSlice | QuoteSlice | TextSlice | ContactFormSlice;
-/**
- * Article document from Prismic
- *
- * - **API ID**: `article`
- * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type ArticleDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<ArticleDocumentData>, "article", Lang>;
 /** Content for Navigation documents */
 interface NavigationDocumentData {
     /**
@@ -310,7 +248,7 @@ interface SettingsDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type SettingsDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<SettingsDocumentData>, "settings", Lang>;
-export type AllDocumentTypes = ArticleDocument | NavigationDocument | PageDocument | ProjectDocument | SettingsDocument;
+export type AllDocumentTypes = NavigationDocument | PageDocument | ProjectDocument | SettingsDocument;
 /**
  * Primary content in BigText → Primary
  *
@@ -668,6 +606,6 @@ declare module "@prismicio/client" {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { ArticleDocumentData, ArticleDocumentDataSlicesSlice, ArticleDocument, NavigationDocumentData, NavigationDocumentDataLinksItem, NavigationDocument, PageDocumentData, PageDocumentDataSlicesSlice, PageDocument, ProjectDocumentData, ProjectDocumentDataSlicesSlice, ProjectDocument, SettingsDocumentData, SettingsDocument, AllDocumentTypes, BigTextSliceDefaultPrimary, BigTextSliceDefault, BigTextSliceVariation, BigTextSlice, ContactFormSliceDefault, ContactFormSliceVariation, ContactFormSlice, ImageSliceDefaultPrimary, ImageSliceDefault, ImageSliceWidePrimary, ImageSliceWide, ImageSliceVariation, ImageSlice, ProjectsSliceDefaultPrimary, ProjectsSliceDefault, ProjectsSliceVariation, ProjectsSlice, QuoteSliceDefaultPrimary, QuoteSliceDefault, QuoteSliceVariation, QuoteSlice, SmallTextSliceDefaultPrimary, SmallTextSliceDefault, SmallTextSliceVariation, SmallTextSlice, TextSliceDefaultPrimary, TextSliceDefault, TextSliceVariation, TextSlice };
+        export type { NavigationDocumentData, NavigationDocumentDataLinksItem, NavigationDocument, PageDocumentData, PageDocumentDataSlicesSlice, PageDocument, ProjectDocumentData, ProjectDocumentDataSlicesSlice, ProjectDocument, SettingsDocumentData, SettingsDocument, AllDocumentTypes, BigTextSliceDefaultPrimary, BigTextSliceDefault, BigTextSliceVariation, BigTextSlice, ContactFormSliceDefault, ContactFormSliceVariation, ContactFormSlice, ImageSliceDefaultPrimary, ImageSliceDefault, ImageSliceWidePrimary, ImageSliceWide, ImageSliceVariation, ImageSlice, ProjectsSliceDefaultPrimary, ProjectsSliceDefault, ProjectsSliceVariation, ProjectsSlice, QuoteSliceDefaultPrimary, QuoteSliceDefault, QuoteSliceVariation, QuoteSlice, SmallTextSliceDefaultPrimary, SmallTextSliceDefault, SmallTextSliceVariation, SmallTextSlice, TextSliceDefaultPrimary, TextSliceDefault, TextSliceVariation, TextSlice };
     }
 }

@@ -24,14 +24,6 @@
         }
       }
     },
-    "article": {
-      "title": {
-        "config": {
-          "patternType": "HEADING",
-          "blocks": 1
-        }
-      }
-    },
     "settings": {
       "name": {
         "config": {
